@@ -14,3 +14,6 @@
   - [ ] Service 단위 테스트 (Mockito, 비즈니스 로직 검증)
   - [ ] Mapper 테스트 (MyBatis, 실제 DB 연결)
   - [ ] 통합 테스트 (API E2E)
+
+## 배포 전 체크리스트
+- `docs/DEPLOY_CHECKLIST.md` 참고
