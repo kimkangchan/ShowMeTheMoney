@@ -28,10 +28,9 @@ public class CategoryService {
 
     // 다른 도메인의 Service가 카테고리 검증 시 사용하는 내부 API — categoryId만 반환해 도메인 객체 노출 방지
     @Transactional(readOnly = true)
-    public Long validateAndGetId(String codeNumber, Integer type) {
-        Category category = categoryMapper.findByCodeNumber(codeNumber);
+    public Long validateAndGetId(String code, Integer type) {
+        Category category = categoryMapper.findByCodeAndType(code, type);
         if (category == null) throw new BusinessException(ErrorCode.CATEGORY_NOT_FOUND);
-        if (!category.getType().equals(type)) throw new BusinessException(ErrorCode.CATEGORY_TYPE_MISMATCH);
         return category.getUuid();
     }
 }

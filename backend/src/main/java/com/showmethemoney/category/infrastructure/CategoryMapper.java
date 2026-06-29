@@ -11,5 +11,5 @@ public interface CategoryMapper {
 
     List<Category> findAll(Integer type);
 
-    Category findByCodeNumber(String codeNumber);
+    Category findByCodeAndType(@Param("code") String code, @Param("type") Integer type);
 }

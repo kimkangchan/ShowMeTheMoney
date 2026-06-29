@@ -28,7 +28,7 @@
     <select id="findAll" resultMap="RecurringItemResultMap">
         SELECT r.uuid, r.uuid_user, r.uuid_category, r.type, r.name, r.amount, r.billing_day,
                r.is_active, r.created_at, r.deleted_at,
-               c.code_number AS category_code, c.name AS category_name
+               c.code AS category_code, c.name AS category_name
         FROM recurring_items r
         JOIN categories c ON r.uuid_category = c.uuid
         WHERE r.uuid_user = #{userId}
@@ -41,7 +41,7 @@
     <select id="findById" resultMap="RecurringItemResultMap">
         SELECT r.uuid, r.uuid_user, r.uuid_category, r.type, r.name, r.amount, r.billing_day,
                r.is_active, r.created_at, r.deleted_at,
-               c.code_number AS category_code, c.name AS category_name
+               c.code AS category_code, c.name AS category_name
         FROM recurring_items r
         JOIN categories c ON r.uuid_category = c.uuid
         WHERE r.uuid = #{id}
