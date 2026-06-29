@@ -34,8 +34,13 @@ public class Transaction {
     public void setUuid(Long uuid) { this.uuid = uuid; }
     public void setUuidUser(Long uuidUser) { this.uuidUser = uuidUser; }
     public void setUuidCategory(Long uuidCategory) { this.uuidCategory = uuidCategory; }
+    public void setCategoryCode(String categoryCode) { this.categoryCode = categoryCode; }
+    public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
     public void setType(Integer type) { this.type = type; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
     public void setMemo(String memo) { this.memo = memo; }
     public void setTransactionDate(LocalDate transactionDate) { this.transactionDate = transactionDate; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public void setDeletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
 }

@@ -33,9 +33,13 @@ public class RecurringItem {
     public void setUuid(Long uuid) { this.uuid = uuid; }
     public void setUuidUser(Long uuidUser) { this.uuidUser = uuidUser; }
     public void setUuidCategory(Long uuidCategory) { this.uuidCategory = uuidCategory; }
+    public void setCategoryCode(String categoryCode) { this.categoryCode = categoryCode; }
+    public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
     public void setType(Integer type) { this.type = type; }
     public void setName(String name) { this.name = name; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
     public void setBillingDay(Integer billingDay) { this.billingDay = billingDay; }
     public void setIsActive(Boolean isActive) { this.isActive = isActive; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setDeletedAt(LocalDateTime deletedAt) { this.deletedAt = deletedAt; }
 }

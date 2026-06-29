@@ -17,7 +17,10 @@ public class Budget {
     public String getYearMonth() { return yearMonth; }
     public BigDecimal getAmount() { return amount; }
 
+    public void setUuid(Long uuid) { this.uuid = uuid; }
     public void setUuidUser(Long uuidUser) { this.uuidUser = uuidUser; }
     public void setYearMonth(String yearMonth) { this.yearMonth = yearMonth; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 }
