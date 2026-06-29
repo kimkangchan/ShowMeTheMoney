@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class User {
 
-    private Long id;
+    private Long uuid;
     private String username;
     private String email;
     private String password;
@@ -22,7 +22,7 @@ public class User {
         return user;
     }
 
-    public Long getId() { return id; }
+    public Long getUuid() { return uuid; }
     public String getUsername() { return username; }
     public String getEmail() { return email; }
     public String getPassword() { return password; }

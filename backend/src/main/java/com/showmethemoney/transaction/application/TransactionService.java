@@ -28,10 +28,10 @@ public class TransactionService {
 
     @Transactional
     public void create(Long userId, CreateTransactionRequest request) {
-        Long categoryId = categoryService.validateAndGetId(request.categoryCode(), request.type());
+        Long uuidCategory = categoryService.validateAndGetId(request.categoryCode(), request.type());
         Transaction tx = new Transaction();
-        tx.setUserId(userId);
-        tx.setCategoryId(categoryId);
+        tx.setUuidUser(userId);
+        tx.setUuidCategory(uuidCategory);
         tx.setType(request.type());
         tx.setAmount(request.amount());
         tx.setMemo(request.memo());
@@ -62,17 +62,17 @@ public class TransactionService {
     public void update(Long userId, Long id, UpdateTransactionRequest request) {
         Transaction existing = findOwnedTransaction(userId, id);
 
-        Long categoryId = null;
+        Long uuidCategory = null;
         if (request.categoryCode() != null || request.type() != null) {
             String newCode = request.categoryCode() != null ? request.categoryCode() : existing.getCategoryCode();
             Integer newType = request.type() != null ? request.type() : existing.getType();
-            categoryId = categoryService.validateAndGetId(newCode, newType);
+            uuidCategory = categoryService.validateAndGetId(newCode, newType);
         }
 
         Transaction update = new Transaction();
-        update.setId(id);
+        update.setUuid(id);
         update.setType(request.type());
-        update.setCategoryId(categoryId);
+        update.setUuidCategory(uuidCategory);
         update.setAmount(request.amount());
         update.setMemo(request.memo());
         update.setTransactionDate(request.transactionAt());
@@ -88,13 +88,13 @@ public class TransactionService {
     private Transaction findOwnedTransaction(Long userId, Long id) {
         Transaction tx = transactionMapper.findById(id);
         if (tx == null || tx.getDeletedAt() != null) throw new BusinessException(ErrorCode.TRANSACTION_NOT_FOUND);
-        if (!tx.getUserId().equals(userId)) throw new BusinessException(ErrorCode.FORBIDDEN);
+        if (!tx.getUuidUser().equals(userId)) throw new BusinessException(ErrorCode.FORBIDDEN);
         return tx;
     }
 
     private TransactionResponse toResponse(Transaction tx) {
         String typeStr = tx.getType() == 1 ? "INCOME" : "EXPENSE";
-        return new TransactionResponse(tx.getId(), typeStr, tx.getCategoryCode(),
+        return new TransactionResponse(tx.getUuid(), typeStr, tx.getCategoryCode(),
                 tx.getCategoryName(), tx.getAmount(), tx.getMemo(), tx.getTransactionDate());
     }
 }

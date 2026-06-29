@@ -5,7 +5,7 @@
 <mapper namespace="com.showmethemoney.category.infrastructure.CategoryMapper">
 
     <resultMap id="CategoryResultMap" type="com.showmethemoney.category.domain.Category">
-        <id property="id" column="id"/>
+        <id property="uuid" column="uuid"/>
         <result property="code" column="code"/>
         <result property="codeNumber" column="code_number"/>
         <result property="name" column="name"/>
@@ -13,7 +13,7 @@
     </resultMap>
 
     <select id="findAll" resultMap="CategoryResultMap">
-        SELECT id, code, code_number, name, type
+        SELECT uuid, code, code_number, name, type
         FROM categories
         <where>
             <if test="type != null">AND type = #{type}</if>
@@ -22,7 +22,7 @@
     </select>
 
     <select id="findByCode" resultMap="CategoryResultMap">
-        SELECT id, code, code_number, name, type
+        SELECT uuid, code, code_number, name, type
         FROM categories
         WHERE code = #{code}
     </select>

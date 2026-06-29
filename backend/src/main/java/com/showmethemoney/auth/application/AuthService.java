@@ -43,7 +43,7 @@ public class AuthService {
         if (user == null || !passwordEncoder.matches(request.password(), user.getPassword())) {
             throw new BusinessException(ErrorCode.INVALID_CREDENTIALS);
         }
-        String token = jwtTokenProvider.generateToken(user.getId(), user.getEmail(), "user");
+        String token = jwtTokenProvider.generateToken(user.getUuid(), user.getEmail(), "user");
         return new LoginResponse(token, "Bearer", 3600L);
     }
 }

@@ -21,7 +21,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse getMe(Long userId) {
         User user = findActiveUser(userId);
-        return new UserResponse(user.getId(), user.getUsername(), user.getEmail(), user.getNickname(), "user");
+        return new UserResponse(user.getUuid(), user.getUsername(), user.getEmail(), user.getNickname(), "user");
     }
 
     @Transactional

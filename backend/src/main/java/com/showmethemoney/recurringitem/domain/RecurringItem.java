@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 public class RecurringItem {
 
-    private Long id;
-    private Long userId;
-    private Long categoryId;
+    private Long uuid;
+    private Long uuidUser;
+    private Long uuidCategory;
     private String categoryCode;
     private String categoryName;
     private Integer type; // 0=EXPENSE, 1=INCOME
@@ -18,9 +18,9 @@ public class RecurringItem {
     private LocalDateTime createdAt;
     private LocalDateTime deletedAt;
 
-    public Long getId() { return id; }
-    public Long getUserId() { return userId; }
-    public Long getCategoryId() { return categoryId; }
+    public Long getUuid() { return uuid; }
+    public Long getUuidUser() { return uuidUser; }
+    public Long getUuidCategory() { return uuidCategory; }
     public String getCategoryCode() { return categoryCode; }
     public String getCategoryName() { return categoryName; }
     public Integer getType() { return type; }
@@ -30,9 +30,9 @@ public class RecurringItem {
     public Boolean getIsActive() { return isActive; }
     public LocalDateTime getDeletedAt() { return deletedAt; }
 
-    public void setId(Long id) { this.id = id; }
-    public void setUserId(Long userId) { this.userId = userId; }
-    public void setCategoryId(Long categoryId) { this.categoryId = categoryId; }
+    public void setUuid(Long uuid) { this.uuid = uuid; }
+    public void setUuidUser(Long uuidUser) { this.uuidUser = uuidUser; }
+    public void setUuidCategory(Long uuidCategory) { this.uuidCategory = uuidCategory; }
     public void setType(Integer type) { this.type = type; }
     public void setName(String name) { this.name = name; }
     public void setAmount(BigDecimal amount) { this.amount = amount; }

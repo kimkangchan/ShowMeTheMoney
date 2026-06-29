@@ -32,6 +32,6 @@ public class CategoryService {
         Category category = categoryMapper.findByCode(code);
         if (category == null) throw new BusinessException(ErrorCode.CATEGORY_NOT_FOUND);
         if (!category.getType().equals(type)) throw new BusinessException(ErrorCode.CATEGORY_TYPE_MISMATCH);
-        return category.getId();
+        return category.getUuid();
     }
 }

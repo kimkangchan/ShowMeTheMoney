@@ -7,7 +7,7 @@
     <select id="sumAmountByType" resultType="java.math.BigDecimal">
         SELECT COALESCE(SUM(amount), 0)
         FROM transactions
-        WHERE user_id = #{userId}
+        WHERE uuid_user = #{userId}
           AND DATE_FORMAT(transaction_date, '%Y-%m') = #{yearMonth}
           AND type = #{type}
           AND deleted_at IS NULL
@@ -22,12 +22,12 @@
     <select id="sumByCategory" resultMap="CategoryAmountRowResultMap">
         SELECT c.code AS category_code, c.name AS category_name, SUM(t.amount) AS amount
         FROM transactions t
-        JOIN categories c ON t.category_id = c.id
-        WHERE t.user_id = #{userId}
+        JOIN categories c ON t.uuid_category = c.uuid
+        WHERE t.uuid_user = #{userId}
           AND DATE_FORMAT(t.transaction_date, '%Y-%m') = #{yearMonth}
           AND t.type = #{type}
           AND t.deleted_at IS NULL
-        GROUP BY c.id, c.code, c.name
+        GROUP BY c.uuid, c.code, c.name
         ORDER BY amount DESC
     </select>
 

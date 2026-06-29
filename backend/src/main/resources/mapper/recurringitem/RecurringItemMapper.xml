@@ -5,9 +5,9 @@
 <mapper namespace="com.showmethemoney.recurringitem.infrastructure.RecurringItemMapper">
 
     <resultMap id="RecurringItemResultMap" type="com.showmethemoney.recurringitem.domain.RecurringItem">
-        <id property="id" column="id"/>
-        <result property="userId" column="user_id"/>
-        <result property="categoryId" column="category_id"/>
+        <id property="uuid" column="uuid"/>
+        <result property="uuidUser" column="uuid_user"/>
+        <result property="uuidCategory" column="uuid_category"/>
         <result property="categoryCode" column="category_code"/>
         <result property="categoryName" column="category_name"/>
         <result property="type" column="type"/>
@@ -20,18 +20,18 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.showmethemoney.recurringitem.domain.RecurringItem"
-            useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO recurring_items (user_id, category_id, type, name, amount, billing_day)
-        VALUES (#{userId}, #{categoryId}, #{type}, #{name}, #{amount}, #{billingDay})
+            useGeneratedKeys="true" keyProperty="uuid">
+        INSERT INTO recurring_items (uuid_user, uuid_category, type, name, amount, billing_day)
+        VALUES (#{uuidUser}, #{uuidCategory}, #{type}, #{name}, #{amount}, #{billingDay})
     </insert>
 
     <select id="findAll" resultMap="RecurringItemResultMap">
-        SELECT r.id, r.user_id, r.category_id, r.type, r.name, r.amount, r.billing_day,
+        SELECT r.uuid, r.uuid_user, r.uuid_category, r.type, r.name, r.amount, r.billing_day,
                r.is_active, r.created_at, r.deleted_at,
                c.code AS category_code, c.name AS category_name
         FROM recurring_items r
-        JOIN categories c ON r.category_id = c.id
-        WHERE r.user_id = #{userId}
+        JOIN categories c ON r.uuid_category = c.uuid
+        WHERE r.uuid_user = #{userId}
           AND r.deleted_at IS NULL
         <if test="isActive != null">AND r.is_active = #{isActive}</if>
         <if test="type != null">AND r.type = #{type}</if>
@@ -39,29 +39,29 @@
     </select>
 
     <select id="findById" resultMap="RecurringItemResultMap">
-        SELECT r.id, r.user_id, r.category_id, r.type, r.name, r.amount, r.billing_day,
+        SELECT r.uuid, r.uuid_user, r.uuid_category, r.type, r.name, r.amount, r.billing_day,
                r.is_active, r.created_at, r.deleted_at,
                c.code AS category_code, c.name AS category_name
         FROM recurring_items r
-        JOIN categories c ON r.category_id = c.id
-        WHERE r.id = #{id}
+        JOIN categories c ON r.uuid_category = c.uuid
+        WHERE r.uuid = #{id}
     </select>
 
     <update id="update" parameterType="com.showmethemoney.recurringitem.domain.RecurringItem">
         UPDATE recurring_items
         <set>
-            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="uuidCategory != null">uuid_category = #{uuidCategory},</if>
             <if test="name != null">name = #{name},</if>
             <if test="amount != null">amount = #{amount},</if>
             <if test="billingDay != null">billing_day = #{billingDay},</if>
             <if test="isActive != null">is_active = #{isActive},</if>
         </set>
-        WHERE id = #{id}
+        WHERE uuid = #{uuid}
           AND deleted_at IS NULL
     </update>
 
     <update id="softDelete">
-        UPDATE recurring_items SET deleted_at = NOW() WHERE id = #{id} AND deleted_at IS NULL
+        UPDATE recurring_items SET deleted_at = NOW() WHERE uuid = #{id} AND deleted_at IS NULL
     </update>
 
 </mapper>

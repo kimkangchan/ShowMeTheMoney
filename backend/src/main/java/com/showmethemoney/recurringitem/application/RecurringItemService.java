@@ -26,10 +26,10 @@ public class RecurringItemService {
 
     @Transactional
     public void create(Long userId, CreateRecurringItemRequest request) {
-        Long categoryId = categoryService.validateAndGetId(request.categoryCode(), request.type());
+        Long uuidCategory = categoryService.validateAndGetId(request.categoryCode(), request.type());
         RecurringItem item = new RecurringItem();
-        item.setUserId(userId);
-        item.setCategoryId(categoryId);
+        item.setUuidUser(userId);
+        item.setUuidCategory(uuidCategory);
         item.setType(request.type());
         item.setName(request.name());
         item.setAmount(request.amount());
@@ -48,14 +48,14 @@ public class RecurringItemService {
     public void update(Long userId, Long id, UpdateRecurringItemRequest request) {
         RecurringItem existing = findOwnedItem(userId, id);
 
-        Long categoryId = null;
+        Long uuidCategory = null;
         if (request.categoryCode() != null) {
-            categoryId = categoryService.validateAndGetId(request.categoryCode(), existing.getType());
+            uuidCategory = categoryService.validateAndGetId(request.categoryCode(), existing.getType());
         }
 
         RecurringItem update = new RecurringItem();
-        update.setId(id);
-        update.setCategoryId(categoryId);
+        update.setUuid(id);
+        update.setUuidCategory(uuidCategory);
         update.setName(request.name());
         update.setAmount(request.amount());
         update.setBillingDay(request.billingDay());
@@ -72,14 +72,14 @@ public class RecurringItemService {
     private RecurringItem findOwnedItem(Long userId, Long id) {
         RecurringItem item = recurringItemMapper.findById(id);
         if (item == null || item.getDeletedAt() != null) throw new BusinessException(ErrorCode.RECURRING_ITEM_NOT_FOUND);
-        if (!item.getUserId().equals(userId)) throw new BusinessException(ErrorCode.FORBIDDEN);
+        if (!item.getUuidUser().equals(userId)) throw new BusinessException(ErrorCode.FORBIDDEN);
         return item;
     }
 
     private RecurringItemResponse toResponse(RecurringItem item) {
         String typeStr = item.getType() == 1 ? "INCOME" : "EXPENSE";
         Integer isActiveInt = Boolean.TRUE.equals(item.getIsActive()) ? 1 : 0;
-        return new RecurringItemResponse(item.getId(), typeStr, item.getCategoryCode(),
+        return new RecurringItemResponse(item.getUuid(), typeStr, item.getCategoryCode(),
                 item.getCategoryName(), item.getName(), item.getAmount(), item.getBillingDay(), isActiveInt);
     }
 }

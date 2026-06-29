@@ -26,7 +26,7 @@ public class BudgetService {
             throw new BusinessException(ErrorCode.BUDGET_ALREADY_EXISTS);
         }
         Budget budget = new Budget();
-        budget.setUserId(userId);
+        budget.setUuidUser(userId);
         budget.setYearMonth(yearMonth);
         budget.setAmount(request.amount());
         budgetMapper.insert(budget);
@@ -36,14 +36,14 @@ public class BudgetService {
     public BudgetResponse get(Long userId, String yearMonth) {
         Budget budget = budgetMapper.findByUserIdAndYearMonth(userId, toDbYearMonth(yearMonth));
         if (budget == null) throw new BusinessException(ErrorCode.BUDGET_NOT_FOUND);
-        return new BudgetResponse(budget.getId(), budget.getYearMonth(), budget.getAmount());
+        return new BudgetResponse(budget.getUuid(), budget.getYearMonth(), budget.getAmount());
     }
 
     @Transactional
     public void update(Long userId, Long id, UpdateBudgetRequest request) {
         Budget budget = budgetMapper.findById(id);
         if (budget == null) throw new BusinessException(ErrorCode.BUDGET_NOT_FOUND);
-        if (!budget.getUserId().equals(userId)) throw new BusinessException(ErrorCode.FORBIDDEN);
+        if (!budget.getUuidUser().equals(userId)) throw new BusinessException(ErrorCode.FORBIDDEN);
         budgetMapper.update(id, request.amount());
     }
 
