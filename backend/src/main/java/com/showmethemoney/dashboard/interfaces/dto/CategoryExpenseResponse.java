@@ -6,5 +6,5 @@ public record CategoryExpenseResponse(
         String categoryCode,
         String categoryName,
         BigDecimal amount,
-        Double percentage
+        Double ratio
 ) {}

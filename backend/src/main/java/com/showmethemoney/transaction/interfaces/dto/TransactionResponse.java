@@ -5,10 +5,10 @@ import java.time.LocalDate;
 
 public record TransactionResponse(
         Long id,
-        Integer type,
+        String type,
         String categoryCode,
         String categoryName,
         BigDecimal amount,
         String memo,
-        LocalDate transactionDate
+        LocalDate transactionAt
 ) {}

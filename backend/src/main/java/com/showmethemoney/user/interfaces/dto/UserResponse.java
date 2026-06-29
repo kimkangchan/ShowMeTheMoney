@@ -1,3 +1,3 @@
 package com.showmethemoney.user.interfaces.dto;
 
-public record UserResponse(Long id, String email, String nickname) {}
+public record UserResponse(Long id, String username, String email, String name, String grade) {}

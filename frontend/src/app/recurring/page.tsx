@@ -13,9 +13,11 @@ export default function RecurringPage() {
   const [showForm, setShowForm] = useState(false);
 
   const fetchItems = useCallback(() => {
-    const params = typeFilter !== "ALL" ? `?type=${typeFilter}` : "";
+    const params = new URLSearchParams();
+    if (typeFilter !== "ALL") params.set("type", typeFilter === "INCOME" ? "1" : "0");
+
     api
-      .get<{ data: RecurringItem[] }>(`/api/recurring${params}`)
+      .get<{ data: RecurringItem[] }>(`/api/recurring-items?${params}`)
       .then((res) => setItems(res.data.data))
       .catch(() => {});
   }, [typeFilter]);
@@ -25,15 +27,15 @@ export default function RecurringPage() {
   }, [fetchItems]);
 
   async function handleToggle(item: RecurringItem) {
-    await api.patch(`/api/recurring/${item.uuid}`, {
-      isActive: item.isActive === 1 ? 0 : 1,
+    await api.put(`/api/recurring-items/${item.id}`, {
+      isActive: item.isActive === 1 ? false : true,
     });
     fetchItems();
   }
 
-  async function handleDelete(uuid: number) {
+  async function handleDelete(id: number) {
     if (!confirm("삭제하시겠습니까?")) return;
-    await api.delete(`/api/recurring/${uuid}`);
+    await api.delete(`/api/recurring-items/${id}`);
     fetchItems();
   }
 
@@ -80,7 +82,7 @@ export default function RecurringPage() {
           {filtered.length > 0 ? (
             filtered.map((item) => (
               <div
-                key={item.uuid}
+                key={item.id}
                 className={`bg-gray-800 rounded-xl p-4 flex items-center justify-between ${
                   item.isActive === 0 ? "opacity-50" : ""
                 }`}
@@ -119,7 +121,7 @@ export default function RecurringPage() {
                     {item.isActive === 1 ? "활성" : "비활성"}
                   </button>
                   <button
-                    onClick={() => handleDelete(item.uuid)}
+                    onClick={() => handleDelete(item.id)}
                     className="text-xs text-gray-500 hover:text-red-400"
                   >
                     삭제
@@ -153,7 +155,7 @@ function RecurringForm({
   onSuccess: () => void;
 }) {
   const [type, setType] = useState<TransactionType>("EXPENSE");
-  const [categoryUuid, setCategoryUuid] = useState<number | null>(null);
+  const [categoryCode, setCategoryCode] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [billingDay, setBillingDay] = useState("1");
@@ -164,16 +166,16 @@ function RecurringForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!categoryUuid) {
+    if (!categoryCode) {
       setError("카테고리를 선택해주세요.");
       return;
     }
     setError("");
     setLoading(true);
     try {
-      await api.post("/api/recurring", {
-        type,
-        uuidCategory: categoryUuid,
+      await api.post("/api/recurring-items", {
+        type: type === "INCOME" ? 1 : 0,
+        categoryCode,
         name,
         amount: Number(amount),
         billingDay: Number(billingDay),
@@ -189,7 +191,7 @@ function RecurringForm({
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
+      <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl text-gray-900">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-base font-bold">고정 항목 등록</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">✕</button>
@@ -204,7 +206,7 @@ function RecurringForm({
                 <button
                   key={t}
                   type="button"
-                  onClick={() => { setType(t); setCategoryUuid(null); }}
+                  onClick={() => { setType(t); setCategoryCode(null); }}
                   className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
                     type === t
                       ? t === "EXPENSE"
@@ -225,11 +227,11 @@ function RecurringForm({
             <div className="flex flex-wrap gap-2">
               {categories.map((cat) => (
                 <button
-                  key={cat.uuid}
+                  key={cat.code}
                   type="button"
-                  onClick={() => setCategoryUuid(cat.uuid)}
+                  onClick={() => setCategoryCode(cat.code)}
                   className={`px-3 py-1.5 rounded-lg text-xs border transition-colors ${
-                    categoryUuid === cat.uuid
+                    categoryCode === cat.code
                       ? "bg-gray-800 border-gray-800 text-white"
                       : "border-gray-200 text-gray-600 hover:bg-gray-50"
                   }`}

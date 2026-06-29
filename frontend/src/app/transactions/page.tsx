@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import TransactionModal from "@/components/ui/TransactionModal";
-import { Transaction, TransactionType } from "@/types";
+import { Transaction, TransactionType, TransactionPageResponse } from "@/types";
 import { formatCurrency, formatDate, toYearMonth, formatYearMonth } from "@/lib/format";
 import api from "@/lib/api";
 
@@ -22,24 +22,18 @@ export default function TransactionsPage() {
   const [showModal, setShowModal] = useState(false);
 
   const fetchTransactions = useCallback(() => {
+    const ym = String(yearMonth);
+    const period = `${ym.slice(0, 4)}-${ym.slice(4)}`;
     const params = new URLSearchParams({
-      yearMonth: String(yearMonth),
+      period,
       page: String(page),
       size: String(PAGE_SIZE),
-      sort: `transactionAt,${sort}`,
+      sort,
     });
-    if (typeFilter !== "ALL") params.set("type", typeFilter);
+    if (typeFilter !== "ALL") params.set("type", typeFilter === "INCOME" ? "1" : "0");
 
     api
-      .get<{
-        data: {
-          content: Transaction[];
-          totalElements: number;
-          totalPages: number;
-          totalIncome: number;
-          totalExpense: number;
-        };
-      }>(`/api/transactions?${params}`)
+      .get<{ data: TransactionPageResponse }>(`/api/transactions?${params}`)
       .then((res) => {
         const d = res.data.data;
         setTransactions(d.content);
@@ -55,9 +49,9 @@ export default function TransactionsPage() {
     fetchTransactions();
   }, [fetchTransactions]);
 
-  async function handleDelete(uuid: number) {
+  async function handleDelete(id: number) {
     if (!confirm("삭제하시겠습니까?")) return;
-    await api.delete(`/api/transactions/${uuid}`);
+    await api.delete(`/api/transactions/${id}`);
     fetchTransactions();
   }
 
@@ -161,7 +155,7 @@ export default function TransactionsPage() {
             <tbody>
               {transactions.length > 0 ? (
                 transactions.map((tx) => (
-                  <tr key={tx.uuid} className="border-b border-gray-700/50 hover:bg-gray-700/30">
+                  <tr key={tx.id} className="border-b border-gray-700/50 hover:bg-gray-700/30">
                     <td className="px-4 py-3 text-gray-300">{formatDate(tx.transactionAt)}</td>
                     <td className="px-4 py-3">
                       <span
@@ -183,7 +177,7 @@ export default function TransactionsPage() {
                     </td>
                     <td className="px-4 py-3 text-center">
                       <button
-                        onClick={() => handleDelete(tx.uuid)}
+                        onClick={() => handleDelete(tx.id)}
                         className="text-xs text-gray-500 hover:text-red-400"
                       >
                         삭제

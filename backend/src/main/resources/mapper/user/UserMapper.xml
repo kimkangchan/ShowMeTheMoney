@@ -6,6 +6,7 @@
 
     <resultMap id="UserResultMap" type="com.showmethemoney.user.domain.User">
         <id property="id" column="id"/>
+        <result property="username" column="username"/>
         <result property="email" column="email"/>
         <result property="password" column="password"/>
         <result property="nickname" column="nickname"/>
@@ -15,7 +16,7 @@
     </resultMap>
 
     <select id="findById" resultMap="UserResultMap">
-        SELECT id, email, password, nickname, created_at, updated_at, deleted_at
+        SELECT id, username, email, password, nickname, created_at, updated_at, deleted_at
         FROM users
         WHERE id = #{id}
     </select>

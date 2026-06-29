@@ -30,7 +30,7 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white rounded-2xl shadow-md w-full max-w-sm px-8 py-10">
+      <div className="bg-white rounded-2xl shadow-md w-full max-w-sm px-8 py-10 text-gray-900">
         <h1 className="text-2xl font-bold text-center mb-1 text-gray-900">MoneyFlowOps</h1>
         <p className="text-xs text-gray-400 text-center mb-8">
           수입과 지출을 한눈에 관리하세요

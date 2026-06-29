@@ -8,6 +8,6 @@ public record DashboardSummaryResponse(
         BigDecimal totalExpense,
         BigDecimal balance,
         BigDecimal budgetAmount,
-        Double usageRate,
+        Double budgetUsageRate,
         Boolean isOverBudget
 ) {}
