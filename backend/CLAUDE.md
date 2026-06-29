@@ -115,14 +115,13 @@ public record ApiResponse<T>(boolean success, T data, ErrorDetail error) {
 | 컬럼 | 타입 | 비고 |
 |---|---|---|
 | `id` | BIGINT UNSIGNED | PK |
+| `username` | VARCHAR(50) | UNIQUE, NOT NULL — 로그인 ID |
 | `email` | VARCHAR(255) | UNIQUE, NOT NULL |
 | `password` | VARCHAR(255) | NOT NULL (BCrypt 해시) |
 | `nickname` | VARCHAR(50) | NOT NULL — API의 `name` 필드가 이 컬럼에 매핑됨 |
 | `created_at` | DATETIME | DEFAULT CURRENT_TIMESTAMP |
 | `updated_at` | DATETIME | ON UPDATE CURRENT_TIMESTAMP |
 | `deleted_at` | DATETIME | NULL — 소프트 삭제 |
-
-> `signup` 요청의 `username` 필드는 현재 DB에 저장 컬럼 없음 (JWT claim에 선택적 포함).
 
 ### `categories`
 | 컬럼 | 타입 | 비고 |

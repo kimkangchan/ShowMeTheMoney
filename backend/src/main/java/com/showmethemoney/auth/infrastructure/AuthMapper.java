@@ -8,5 +8,7 @@ public interface AuthMapper {
 
     void insertUser(User user);
 
+    User findByUsername(String username);
+
     User findByEmail(String email);
 }

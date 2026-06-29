@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class User {
 
     private Long id;
+    private String username;
     private String email;
     private String password;
     private String nickname;
@@ -12,8 +13,9 @@ public class User {
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
 
-    public static User of(String email, String encodedPassword, String nickname) {
+    public static User of(String username, String email, String encodedPassword, String nickname) {
         User user = new User();
+        user.username = username;
         user.email = email;
         user.password = encodedPassword;
         user.nickname = nickname;
@@ -21,6 +23,7 @@ public class User {
     }
 
     public Long getId() { return id; }
+    public String getUsername() { return username; }
     public String getEmail() { return email; }
     public String getPassword() { return password; }
     public String getNickname() { return nickname; }

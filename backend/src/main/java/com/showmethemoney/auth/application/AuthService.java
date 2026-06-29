@@ -27,16 +27,19 @@ public class AuthService {
 
     @Transactional
     public void signup(SignupRequest request) {
+        if (authMapper.findByUsername(request.username()) != null) {
+            throw new BusinessException(ErrorCode.USERNAME_ALREADY_EXISTS);
+        }
         if (authMapper.findByEmail(request.email()) != null) {
             throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
-        User user = User.of(request.email(), passwordEncoder.encode(request.password()), request.name());
+        User user = User.of(request.username(), request.email(), passwordEncoder.encode(request.password()), request.name());
         authMapper.insertUser(user);
     }
 
     @Transactional(readOnly = true)
     public LoginResponse login(LoginRequest request) {
-        User user = authMapper.findByEmail(request.email());
+        User user = authMapper.findByUsername(request.username());
         if (user == null || !passwordEncoder.matches(request.password(), user.getPassword())) {
             throw new BusinessException(ErrorCode.INVALID_CREDENTIALS);
         }
