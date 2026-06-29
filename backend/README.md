@@ -23,7 +23,7 @@ Spring Boot 3.5.6 / Java 21 / MyBatis / MySQL 8.x
 ```yaml
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/showmethemoney?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/showmethemoney?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: YOUR_DB_USERNAME
     password: YOUR_DB_PASSWORD
 
@@ -58,7 +58,7 @@ curl http://localhost:8080/api/health
 
 | username | password | 데이터 |
 |---|---|---|
-| `testuser` | `password123` | 3개월 거래 내역, 고정항목 7개, 예산 3건 |
+| `testuser` | `password123` | 4개월 거래 내역, 고정항목 7개, 예산 4건 |
 | `alice` | `password123` | 2개월 거래 내역, 고정항목 3개, 예산 2건 |
 | `bob` | `password123` | 6월 거래 내역만 |
 
