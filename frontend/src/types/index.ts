@@ -23,52 +23,42 @@ export interface Category {
 }
 
 export interface User {
-  uuid: number;
+  id: number;
   username: string;
   name: string;
   email: string;
-  grade: 0 | 1;
-  createdAt: string;
+  grade: string;
 }
 
 export interface Transaction {
-  uuid: number;
-  uuidUser: number;
+  id: number;
   type: TransactionType;
+  categoryCode: CategoryCode;
+  categoryName: string;
   amount: number;
-  uuidCategory: number;
-  categoryName?: string;
-  categoryCode?: CategoryCode;
   memo?: string;
   transactionAt: string;
-  createdAt: string;
-  updatedAt?: string;
 }
 
 export interface RecurringItem {
-  uuid: number;
-  uuidUser: number;
-  uuidCategory: number;
-  categoryName?: string;
+  id: number;
   type: TransactionType;
+  categoryCode: CategoryCode;
+  categoryName: string;
   name: string;
   amount: number;
   billingDay: number;
   isActive: 0 | 1;
-  createdAt: string;
 }
 
 export interface Budget {
-  uuid: number;
-  uuidUser: number;
-  yearMonth: number;
+  id: number;
+  yearMonth: string;
   amount: number;
-  memo?: string;
-  createdAt: string;
 }
 
 export interface DashboardSummary {
-  yearMonth: number;
+  yearMonth: string;
   totalIncome: number;
   totalExpense: number;
   balance: number;
@@ -84,12 +74,12 @@ export interface CategoryExpense {
   ratio: number;
 }
 
-export interface PageResponse<T> {
-  content: T[];
+export interface TransactionPageResponse {
+  content: Transaction[];
   totalElements: number;
   totalPages: number;
-  page: number;
-  size: number;
+  totalIncome: number;
+  totalExpense: number;
 }
 
 export interface ApiResponse<T> {

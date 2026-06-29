@@ -77,7 +77,9 @@ public class RecurringItemService {
     }
 
     private RecurringItemResponse toResponse(RecurringItem item) {
-        return new RecurringItemResponse(item.getId(), item.getType(), item.getCategoryCode(),
-                item.getCategoryName(), item.getName(), item.getAmount(), item.getBillingDay(), item.getIsActive());
+        String typeStr = item.getType() == 1 ? "INCOME" : "EXPENSE";
+        Integer isActiveInt = Boolean.TRUE.equals(item.getIsActive()) ? 1 : 0;
+        return new RecurringItemResponse(item.getId(), typeStr, item.getCategoryCode(),
+                item.getCategoryName(), item.getName(), item.getAmount(), item.getBillingDay(), isActiveInt);
     }
 }

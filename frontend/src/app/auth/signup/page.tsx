@@ -26,6 +26,10 @@ export default function SignupPage() {
     e.preventDefault();
     setError("");
 
+    if (form.password.length < 8) {
+      setError("비밀번호는 8자 이상이어야 합니다.");
+      return;
+    }
     if (form.password !== form.passwordConfirm) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
@@ -49,7 +53,7 @@ export default function SignupPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white rounded-2xl shadow-md w-full max-w-sm px-8 py-10">
+      <div className="bg-white rounded-2xl shadow-md w-full max-w-sm px-8 py-10 text-gray-900">
         <h1 className="text-2xl font-bold text-center mb-1 text-gray-900">MoneyFlowOps</h1>
         <p className="text-xs text-gray-400 text-center mb-8">
           새 계정을 만들어 관리를 시작하세요
@@ -60,7 +64,7 @@ export default function SignupPage() {
             { label: "이름", name: "name", type: "text", placeholder: "이름을 입력하세요" },
             { label: "아이디", name: "username", type: "text", placeholder: "아이디를 입력하세요" },
             { label: "이메일", name: "email", type: "email", placeholder: "이메일을 입력하세요" },
-            { label: "비밀번호", name: "password", type: "password", placeholder: "비밀번호를 입력하세요" },
+            { label: "비밀번호 (8자 이상)", name: "password", type: "password", placeholder: "8자 이상 입력하세요" },
             { label: "비밀번호 확인", name: "passwordConfirm", type: "password", placeholder: "비밀번호를 한 번 더 입력하세요" },
           ].map((field) => (
             <div key={field.name} className="flex flex-col gap-1">

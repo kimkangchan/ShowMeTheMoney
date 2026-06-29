@@ -15,19 +15,19 @@
 
     <insert id="insert" parameterType="com.showmethemoney.budget.domain.Budget"
             useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO budgets (user_id, year_month, amount)
+        INSERT INTO budgets (user_id, `year_month`, amount)
         VALUES (#{userId}, #{yearMonth}, #{amount})
     </insert>
 
     <select id="findByUserIdAndYearMonth" resultMap="BudgetResultMap">
-        SELECT id, user_id, year_month, amount, created_at, updated_at
+        SELECT id, user_id, `year_month`, amount, created_at, updated_at
         FROM budgets
         WHERE user_id = #{userId}
-          AND year_month = #{yearMonth}
+          AND `year_month` = #{yearMonth}
     </select>
 
     <select id="findById" resultMap="BudgetResultMap">
-        SELECT id, user_id, year_month, amount, created_at, updated_at
+        SELECT id, user_id, `year_month`, amount, created_at, updated_at
         FROM budgets
         WHERE id = #{id}
     </select>

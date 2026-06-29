@@ -4,14 +4,13 @@ import com.showmethemoney.common.ApiResponse;
 import com.showmethemoney.transaction.application.TransactionListRequest;
 import com.showmethemoney.transaction.application.TransactionService;
 import com.showmethemoney.transaction.interfaces.dto.CreateTransactionRequest;
+import com.showmethemoney.transaction.interfaces.dto.TransactionPageResponse;
 import com.showmethemoney.transaction.interfaces.dto.TransactionResponse;
 import com.showmethemoney.transaction.interfaces.dto.UpdateTransactionRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/transactions")
@@ -32,7 +31,7 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ApiResponse<List<TransactionResponse>> getList(
+    public ApiResponse<TransactionPageResponse> getList(
             @AuthenticationPrincipal Long userId,
             @RequestParam(required = false) Integer type,
             @RequestParam(required = false) String categoryCode,

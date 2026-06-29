@@ -36,7 +36,7 @@
         <if test="request.type != null">AND t.type = #{request.type}</if>
         <if test="request.categoryCode != null">AND c.code = #{request.categoryCode}</if>
         <if test="request.period != null and request.period.length() == 4">
-            AND t.transaction_date BETWEEN #{request.period} + '-01-01' AND #{request.period} + '-12-31'
+            AND t.transaction_date BETWEEN CONCAT(#{request.period}, '-01-01') AND CONCAT(#{request.period}, '-12-31')
         </if>
         <if test="request.period != null and request.period.length() == 7">
             AND DATE_FORMAT(t.transaction_date, '%Y-%m') = #{request.period}
@@ -73,6 +73,43 @@
         WHERE id = #{id}
           AND deleted_at IS NULL
     </update>
+
+    <select id="countAll" resultType="long">
+        SELECT COUNT(*)
+        FROM transactions t
+        JOIN categories c ON t.category_id = c.id
+        WHERE t.user_id = #{userId}
+          AND t.deleted_at IS NULL
+        <if test="request.type != null">AND t.type = #{request.type}</if>
+        <if test="request.categoryCode != null">AND c.code = #{request.categoryCode}</if>
+        <if test="request.period != null and request.period.length() == 4">
+            AND t.transaction_date BETWEEN CONCAT(#{request.period}, '-01-01') AND CONCAT(#{request.period}, '-12-31')
+        </if>
+        <if test="request.period != null and request.period.length() == 7">
+            AND DATE_FORMAT(t.transaction_date, '%Y-%m') = #{request.period}
+        </if>
+        <if test="request.period != null and request.period.length() == 10">
+            AND t.transaction_date = #{request.period}
+        </if>
+    </select>
+
+    <select id="sumAmountByType" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(t.amount), 0)
+        FROM transactions t
+        JOIN categories c ON t.category_id = c.id
+        WHERE t.user_id = #{userId}
+          AND t.type = #{type}
+          AND t.deleted_at IS NULL
+        <if test="request.period != null and request.period.length() == 4">
+            AND t.transaction_date BETWEEN CONCAT(#{request.period}, '-01-01') AND CONCAT(#{request.period}, '-12-31')
+        </if>
+        <if test="request.period != null and request.period.length() == 7">
+            AND DATE_FORMAT(t.transaction_date, '%Y-%m') = #{request.period}
+        </if>
+        <if test="request.period != null and request.period.length() == 10">
+            AND t.transaction_date = #{request.period}
+        </if>
+    </select>
 
     <update id="softDelete">
         UPDATE transactions SET deleted_at = NOW() WHERE id = #{id} AND deleted_at IS NULL

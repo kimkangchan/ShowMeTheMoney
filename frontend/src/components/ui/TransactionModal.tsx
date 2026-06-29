@@ -12,7 +12,7 @@ interface Props {
 
 export default function TransactionModal({ onClose, onSuccess }: Props) {
   const [type, setType] = useState<TransactionType>("EXPENSE");
-  const [categoryUuid, setCategoryUuid] = useState<number | null>(null);
+  const [categoryCode, setCategoryCode] = useState<string | null>(null);
   const [amount, setAmount] = useState("");
   const [memo, setMemo] = useState("");
   const [transactionAt, setTransactionAt] = useState(
@@ -25,7 +25,7 @@ export default function TransactionModal({ onClose, onSuccess }: Props) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!categoryUuid) {
+    if (!categoryCode) {
       setError("카테고리를 선택해주세요.");
       return;
     }
@@ -33,11 +33,11 @@ export default function TransactionModal({ onClose, onSuccess }: Props) {
     setLoading(true);
     try {
       await api.post("/api/transactions", {
-        type,
-        uuidCategory: categoryUuid,
+        type: type === "INCOME" ? 1 : 0,
+        categoryCode,
         amount: Number(amount),
-        memo,
-        transactionAt: `${transactionAt}T00:00:00`,
+        memo: memo || undefined,
+        transactionAt,
       });
       onSuccess();
       onClose();
@@ -50,7 +50,7 @@ export default function TransactionModal({ onClose, onSuccess }: Props) {
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl">
+      <div className="bg-white rounded-2xl w-full max-w-md p-6 shadow-xl text-gray-900">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-base font-bold">거래 등록</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">✕</button>
@@ -65,7 +65,7 @@ export default function TransactionModal({ onClose, onSuccess }: Props) {
                 <button
                   key={t}
                   type="button"
-                  onClick={() => { setType(t); setCategoryUuid(null); }}
+                  onClick={() => { setType(t); setCategoryCode(null); }}
                   className={`flex-1 py-2 rounded-lg text-sm font-medium border transition-colors ${
                     type === t
                       ? t === "EXPENSE"
@@ -86,11 +86,11 @@ export default function TransactionModal({ onClose, onSuccess }: Props) {
             <div className="flex flex-wrap gap-2">
               {categories.map((cat) => (
                 <button
-                  key={cat.uuid}
+                  key={cat.code}
                   type="button"
-                  onClick={() => setCategoryUuid(cat.uuid)}
+                  onClick={() => setCategoryCode(cat.code)}
                   className={`px-3 py-1.5 rounded-lg text-xs border transition-colors ${
-                    categoryUuid === cat.uuid
+                    categoryCode === cat.code
                       ? "bg-gray-800 border-gray-800 text-white"
                       : "border-gray-200 text-gray-600 hover:bg-gray-50"
                   }`}

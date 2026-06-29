@@ -6,11 +6,13 @@ import com.showmethemoney.common.ErrorCode;
 import com.showmethemoney.transaction.domain.Transaction;
 import com.showmethemoney.transaction.infrastructure.TransactionMapper;
 import com.showmethemoney.transaction.interfaces.dto.CreateTransactionRequest;
+import com.showmethemoney.transaction.interfaces.dto.TransactionPageResponse;
 import com.showmethemoney.transaction.interfaces.dto.TransactionResponse;
 import com.showmethemoney.transaction.interfaces.dto.UpdateTransactionRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -38,11 +40,16 @@ public class TransactionService {
     }
 
     @Transactional(readOnly = true)
-    public List<TransactionResponse> getList(Long userId, TransactionListRequest request) {
+    public TransactionPageResponse getList(Long userId, TransactionListRequest request) {
         int offset = request.page() * request.size();
-        return transactionMapper.findAll(userId, request, offset).stream()
+        List<TransactionResponse> content = transactionMapper.findAll(userId, request, offset).stream()
                 .map(this::toResponse)
                 .toList();
+        long totalElements = transactionMapper.countAll(userId, request);
+        int totalPages = (int) Math.ceil((double) totalElements / request.size());
+        BigDecimal totalIncome = transactionMapper.sumAmountByType(userId, request, 1);
+        BigDecimal totalExpense = transactionMapper.sumAmountByType(userId, request, 0);
+        return new TransactionPageResponse(content, totalElements, totalPages, totalIncome, totalExpense);
     }
 
     @Transactional(readOnly = true)
@@ -86,7 +93,8 @@ public class TransactionService {
     }
 
     private TransactionResponse toResponse(Transaction tx) {
-        return new TransactionResponse(tx.getId(), tx.getType(), tx.getCategoryCode(),
+        String typeStr = tx.getType() == 1 ? "INCOME" : "EXPENSE";
+        return new TransactionResponse(tx.getId(), typeStr, tx.getCategoryCode(),
                 tx.getCategoryName(), tx.getAmount(), tx.getMemo(), tx.getTransactionDate());
     }
 }

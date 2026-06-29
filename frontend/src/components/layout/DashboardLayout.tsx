@@ -14,7 +14,9 @@ export default function DashboardLayout({
   const router = useRouter();
 
   useEffect(() => {
+    console.log("[Dashboard] isLoading:", isLoading, "isLoggedIn:", isLoggedIn);
     if (!isLoading && !isLoggedIn) {
+      console.log("[Dashboard] redirecting to login");
       router.push("/auth/login");
     }
   }, [isLoggedIn, isLoading, router]);

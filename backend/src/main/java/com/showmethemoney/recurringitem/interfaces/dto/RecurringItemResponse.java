@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 
 public record RecurringItemResponse(
         Long id,
-        Integer type,
+        String type,
         String categoryCode,
         String categoryName,
         String name,
         BigDecimal amount,
         Integer billingDay,
-        Boolean isActive
+        Integer isActive
 ) {}

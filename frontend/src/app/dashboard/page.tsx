@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import DashboardLayout from "@/components/layout/DashboardLayout";
-import { formatCurrency, formatYearMonth, toYearMonth } from "@/lib/format";
+import { formatCurrency, formatYearMonth, toYearMonth, formatDate } from "@/lib/format";
 import { DashboardSummary, CategoryExpense, Transaction } from "@/types";
 import api from "@/lib/api";
 import {
@@ -22,22 +22,25 @@ export default function DashboardPage() {
   const [categoryExpenses, setCategoryExpenses] = useState<CategoryExpense[]>([]);
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
 
+  const yearMonthStr = String(yearMonth);
+
   useEffect(() => {
     api
-      .get<{ data: DashboardSummary }>(`/api/dashboard/summary?yearMonth=${yearMonth}`)
+      .get<{ data: DashboardSummary }>(`/api/dashboard/summary?yearMonth=${yearMonthStr}`)
       .then((res) => setSummary(res.data.data))
       .catch(() => {});
 
     api
-      .get<{ data: CategoryExpense[] }>(`/api/dashboard/category-expenses?yearMonth=${yearMonth}`)
+      .get<{ data: CategoryExpense[] }>(`/api/dashboard/categories?yearMonth=${yearMonthStr}&type=0`)
       .then((res) => setCategoryExpenses(res.data.data))
       .catch(() => {});
 
+    const period = `${yearMonthStr.slice(0, 4)}-${yearMonthStr.slice(4)}`;
     api
-      .get<{ data: { content: Transaction[] } }>(`/api/transactions?yearMonth=${yearMonth}&size=5&sort=transactionAt,desc`)
+      .get<{ data: { content: Transaction[] } }>(`/api/transactions?period=${period}&size=5&sort=desc`)
       .then((res) => setRecentTransactions(res.data.data.content))
       .catch(() => {});
-  }, [yearMonth]);
+  }, [yearMonthStr]);
 
   const budgetRate = summary?.budgetUsageRate ?? null;
 
@@ -187,10 +190,10 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-3">
               {recentTransactions.length > 0 ? (
                 recentTransactions.map((tx) => (
-                  <div key={tx.uuid} className="flex justify-between items-center">
+                  <div key={tx.id} className="flex justify-between items-center">
                     <div>
                       <p className="text-xs text-gray-300">{tx.categoryName}</p>
-                      <p className="text-xs text-gray-500">{tx.memo ?? "-"}</p>
+                      <p className="text-xs text-gray-500">{formatDate(tx.transactionAt)} · {tx.memo ?? "-"}</p>
                     </div>
                     <span
                       className={`text-sm font-medium ${

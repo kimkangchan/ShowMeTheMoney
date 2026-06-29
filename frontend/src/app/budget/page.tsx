@@ -10,7 +10,6 @@ export default function BudgetPage() {
   const [yearMonth, setYearMonth] = useState(toYearMonth());
   const [budget, setBudget] = useState<Budget | null>(null);
   const [amount, setAmount] = useState("");
-  const [memo, setMemo] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,12 +20,10 @@ export default function BudgetPage() {
       .then((res) => {
         setBudget(res.data.data);
         setAmount(String(res.data.data.amount));
-        setMemo(res.data.data.memo ?? "");
       })
       .catch(() => {
         setBudget(null);
         setAmount("");
-        setMemo("");
       });
   }, [yearMonth]);
 
@@ -41,16 +38,13 @@ export default function BudgetPage() {
     setLoading(true);
     try {
       if (budget) {
-        await api.put(`/api/budgets/${budget.uuid}`, {
-          yearMonth,
+        await api.put(`/api/budgets/${budget.id}`, {
           amount: Number(amount),
-          memo,
         });
       } else {
         await api.post("/api/budgets", {
-          yearMonth,
+          yearMonth: String(yearMonth),
           amount: Number(amount),
-          memo,
         });
       }
       fetchBudget();
@@ -60,12 +54,6 @@ export default function BudgetPage() {
     } finally {
       setLoading(false);
     }
-  }
-
-  async function handleDelete() {
-    if (!budget || !confirm("예산을 삭제하시겠습니까?")) return;
-    await api.delete(`/api/budgets/${budget.uuid}`);
-    fetchBudget();
   }
 
   return (
@@ -106,24 +94,15 @@ export default function BudgetPage() {
           {budget && !isEditing ? (
             <div className="bg-white dark:bg-gray-800 rounded-xl p-6 mb-4">
               <p className="text-xs text-gray-400 mb-1">{formatYearMonth(yearMonth)} 예산</p>
-              <p className="text-3xl font-bold text-blue-400 mb-2">
+              <p className="text-3xl font-bold text-blue-400 mb-4">
                 {formatCurrency(budget.amount)}
               </p>
-              {budget.memo && (
-                <p className="text-sm text-gray-400 mb-4">{budget.memo}</p>
-              )}
               <div className="flex gap-2">
                 <button
                   onClick={() => setIsEditing(true)}
                   className="px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm"
                 >
                   수정
-                </button>
-                <button
-                  onClick={handleDelete}
-                  className="px-4 py-2 bg-gray-700 hover:bg-red-600 rounded-lg text-sm text-gray-300"
-                >
-                  삭제
                 </button>
               </div>
             </div>
@@ -147,17 +126,6 @@ export default function BudgetPage() {
                     />
                     <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-gray-400">원</span>
                   </div>
-                </div>
-
-                <div className="flex flex-col gap-1">
-                  <label className="text-xs text-gray-400">메모 (선택)</label>
-                  <input
-                    type="text"
-                    placeholder="메모를 입력하세요"
-                    value={memo}
-                    onChange={(e) => setMemo(e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
-                  />
                 </div>
 
                 {error && (
