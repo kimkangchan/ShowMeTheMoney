@@ -33,14 +33,14 @@ public class RecurringItemController {
     @GetMapping
     public ApiResponse<List<RecurringItemResponse>> getList(
             @AuthenticationPrincipal Long userId,
-            @RequestParam(required = false) Boolean isActive,
-            @RequestParam(required = false) Integer type) {
+            @RequestParam(name = "isActive", required = false) Boolean isActive,
+            @RequestParam(name = "type", required = false) Integer type) {
         return ApiResponse.ok(recurringItemService.getList(userId, isActive, type));
     }
 
     @PutMapping("/{id}")
     public ApiResponse<Void> update(@AuthenticationPrincipal Long userId,
-                                    @PathVariable Long id,
+                                    @PathVariable("id") Long id,
                                     @Valid @RequestBody UpdateRecurringItemRequest request) {
         recurringItemService.update(userId, id, request);
         return ApiResponse.ok();
@@ -48,7 +48,7 @@ public class RecurringItemController {
 
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(@AuthenticationPrincipal Long userId,
-                                    @PathVariable Long id) {
+                                    @PathVariable("id") Long id) {
         recurringItemService.delete(userId, id);
         return ApiResponse.ok();
     }

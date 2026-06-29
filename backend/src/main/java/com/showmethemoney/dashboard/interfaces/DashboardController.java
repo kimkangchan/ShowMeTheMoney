@@ -22,15 +22,15 @@ public class DashboardController {
     @GetMapping("/summary")
     public ApiResponse<DashboardSummaryResponse> getSummary(
             @AuthenticationPrincipal Long userId,
-            @RequestParam String yearMonth) {
+            @RequestParam("yearMonth") String yearMonth) {
         return ApiResponse.ok(dashboardService.getSummary(userId, yearMonth));
     }
 
     @GetMapping("/categories")
     public ApiResponse<List<CategoryExpenseResponse>> getCategoryExpenses(
             @AuthenticationPrincipal Long userId,
-            @RequestParam String yearMonth,
-            @RequestParam(required = false) Integer type) {
+            @RequestParam("yearMonth") String yearMonth,
+            @RequestParam(name = "type", required = false) Integer type) {
         return ApiResponse.ok(dashboardService.getCategoryExpenses(userId, yearMonth, type));
     }
 }

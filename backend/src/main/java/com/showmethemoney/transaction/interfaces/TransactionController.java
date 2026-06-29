@@ -33,25 +33,25 @@ public class TransactionController {
     @GetMapping
     public ApiResponse<TransactionPageResponse> getList(
             @AuthenticationPrincipal Long userId,
-            @RequestParam(required = false) Integer type,
-            @RequestParam(required = false) String categoryCode,
-            @RequestParam(required = false) String period,
-            @RequestParam(defaultValue = "desc") String sort,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
+            @RequestParam(name = "type", required = false) Integer type,
+            @RequestParam(name = "categoryCode", required = false) String categoryCode,
+            @RequestParam(name = "period", required = false) String period,
+            @RequestParam(name = "sort", defaultValue = "desc") String sort,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "20") int size) {
         return ApiResponse.ok(transactionService.getList(userId,
                 new TransactionListRequest(type, categoryCode, period, sort, page, size)));
     }
 
     @GetMapping("/{id}")
     public ApiResponse<TransactionResponse> getOne(@AuthenticationPrincipal Long userId,
-                                                   @PathVariable Long id) {
+                                                   @PathVariable("id") Long id) {
         return ApiResponse.ok(transactionService.getOne(userId, id));
     }
 
     @PutMapping("/{id}")
     public ApiResponse<Void> update(@AuthenticationPrincipal Long userId,
-                                    @PathVariable Long id,
+                                    @PathVariable("id") Long id,
                                     @Valid @RequestBody UpdateTransactionRequest request) {
         transactionService.update(userId, id, request);
         return ApiResponse.ok();
@@ -59,7 +59,7 @@ public class TransactionController {
 
     @DeleteMapping("/{id}")
     public ApiResponse<Void> delete(@AuthenticationPrincipal Long userId,
-                                    @PathVariable Long id) {
+                                    @PathVariable("id") Long id) {
         transactionService.delete(userId, id);
         return ApiResponse.ok();
     }

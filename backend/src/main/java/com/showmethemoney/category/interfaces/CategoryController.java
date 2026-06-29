@@ -22,7 +22,7 @@ public class CategoryController {
 
     @GetMapping
     public ApiResponse<List<CategoryResponse>> getCategories(
-            @RequestParam(required = false) Integer type) {
+            @RequestParam(name = "type", required = false) Integer type) {
         return ApiResponse.ok(categoryService.getCategories(type));
     }
 }

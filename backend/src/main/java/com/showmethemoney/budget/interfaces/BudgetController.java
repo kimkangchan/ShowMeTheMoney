@@ -30,13 +30,13 @@ public class BudgetController {
 
     @GetMapping
     public ApiResponse<BudgetResponse> get(@AuthenticationPrincipal Long userId,
-                                           @RequestParam String yearMonth) {
+                                           @RequestParam("yearMonth") String yearMonth) {
         return ApiResponse.ok(budgetService.get(userId, yearMonth));
     }
 
     @PutMapping("/{id}")
     public ApiResponse<Void> update(@AuthenticationPrincipal Long userId,
-                                    @PathVariable Long id,
+                                    @PathVariable("id") Long id,
                                     @Valid @RequestBody UpdateBudgetRequest request) {
         budgetService.update(userId, id, request);
         return ApiResponse.ok();
