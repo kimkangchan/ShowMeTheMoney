@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.showmethemoney.budget.infrastructure.BudgetMapper">
+
+    <resultMap id="BudgetResultMap" type="com.showmethemoney.budget.domain.Budget">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="yearMonth" column="year_month"/>
+        <result property="amount" column="amount"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.showmethemoney.budget.domain.Budget"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO budgets (user_id, year_month, amount)
+        VALUES (#{userId}, #{yearMonth}, #{amount})
+    </insert>
+
+    <select id="findByUserIdAndYearMonth" resultMap="BudgetResultMap">
+        SELECT id, user_id, year_month, amount, created_at, updated_at
+        FROM budgets
+        WHERE user_id = #{userId}
+          AND year_month = #{yearMonth}
+    </select>
+
+    <select id="findById" resultMap="BudgetResultMap">
+        SELECT id, user_id, year_month, amount, created_at, updated_at
+        FROM budgets
+        WHERE id = #{id}
+    </select>
+
+    <update id="update">
+        UPDATE budgets SET amount = #{amount} WHERE id = #{id}
+    </update>
+
+</mapper>
