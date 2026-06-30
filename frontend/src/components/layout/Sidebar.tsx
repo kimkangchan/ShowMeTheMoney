@@ -24,7 +24,7 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="w-56 min-h-screen bg-gray-900 dark:bg-gray-950 flex flex-col text-white border-r border-white/5">
+    <aside className="w-56 min-h-screen bg-gray-900 dark:bg-gray-950 flex flex-col text-white border-r border-gray-200 dark:border-white/5">
       <div className="px-6 py-5 border-b border-white/10">
         <span className="font-bold text-base tracking-tight">MoneyFlowOps</span>
       </div>
@@ -50,7 +50,6 @@ export default function Sidebar() {
       </nav>
 
       <div className="px-4 py-4 border-t border-white/10 flex flex-col gap-2">
-        {/* 다크모드 토글 */}
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           className="flex items-center gap-2 text-xs text-gray-400 hover:text-white transition-colors"

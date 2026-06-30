@@ -88,7 +88,7 @@ export default function DashboardPage() {
           <MetricCard
             label="총 잔액"
             value={formatCurrency(summary?.balance ?? 0)}
-            color="text-white"
+            color="text-gray-900 dark:text-white"
           />
           <MetricCard
             label="총 수입"
@@ -125,15 +125,15 @@ export default function DashboardPage() {
 
         {/* 예산 진행바 */}
         {budgetRate !== null && (
-          <div className="mb-6 bg-gray-800 rounded-xl p-4">
+          <div className="mb-6 bg-white dark:bg-gray-800 rounded-xl p-4">
             <div className="flex justify-between text-sm mb-2">
-              <span className="text-gray-400">예산 사용률</span>
+              <span className="text-gray-500 dark:text-gray-400">예산 사용률</span>
               <span className={summary?.isOverBudget ? "text-red-400" : "text-blue-400"}>
                 {budgetRate.toFixed(1)}%
                 {summary?.isOverBudget && " ⚠️ 예산 초과"}
               </span>
             </div>
-            <div className="w-full bg-gray-700 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
               <div
                 className={`h-2 rounded-full transition-all ${
                   summary?.isOverBudget ? "bg-red-500" : "bg-blue-500"
@@ -146,7 +146,7 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-3 gap-4">
           {/* 카테고리 차트 */}
-          <div className="col-span-2 bg-gray-800 rounded-xl p-4">
+          <div className="col-span-2 bg-white dark:bg-gray-800 rounded-xl p-4">
             <h2 className="text-sm font-semibold mb-4">카테고리별 지출</h2>
             {categoryExpenses.length > 0 ? (
               <ResponsiveContainer width="100%" height={200}>
@@ -192,8 +192,8 @@ export default function DashboardPage() {
                 recentTransactions.map((tx) => (
                   <div key={tx.id} className="flex justify-between items-center">
                     <div>
-                      <p className="text-xs text-gray-300">{tx.categoryName}</p>
-                      <p className="text-xs text-gray-500">{formatDate(tx.transactionAt)} · {tx.memo ?? "-"}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-300">{tx.categoryName}</p>
+                      <p className="text-xs text-gray-400 dark:text-gray-500">{formatDate(tx.transactionAt)} · {tx.memo ?? "-"}</p>
                     </div>
                     <span
                       className={`text-sm font-medium ${
