@@ -27,3 +27,6 @@ Thumbs.db
 
 # Docker
 *.log
+
+# k8s secret
+infra/k8s/secret.yaml
