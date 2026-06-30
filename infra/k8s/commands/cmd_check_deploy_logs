@@ -1,0 +1,2 @@
+kubectl logs -n showmethemoney deployment/frontend --tail=100
+kubectl logs -n showmethemoney deployment/backend --tail=100

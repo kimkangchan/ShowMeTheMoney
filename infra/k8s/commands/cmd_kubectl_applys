@@ -1,0 +1,6 @@
+kubectl apply -f infra/k8s/namespace.yaml
+kubectl apply -f infra/k8s/configmap.yaml
+kubectl apply -f infra/k8s/secret.yaml
+kubectl apply -f infra/k8s/mysql/
+kubectl apply -f infra/k8s/backend/
+kubectl apply -f infra/k8s/frontend/

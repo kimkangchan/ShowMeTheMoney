@@ -1,0 +1,3 @@
+kubectl rollout status deployment/frontend -n showmethemoney
+kubectl rollout status deployment/backend -n showmethemoney
+kubectl get pods -n showmethemoney -o wide

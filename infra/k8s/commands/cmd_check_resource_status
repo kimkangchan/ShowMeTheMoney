@@ -1,0 +1,4 @@
+kubectl get pods -n showmethemoney -o wide
+kubectl get svc -n showmethemoney
+kubectl get endpoints backend -n showmethemoney -o wide
+kubectl get endpoints mysql -n showmethemoney -o wide
