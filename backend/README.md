@@ -18,21 +18,22 @@ Spring Boot 3.5.6 / Java 21 / MyBatis / MySQL 8.x
 
 ### 1. 환경변수 설정
 
-아래 환경변수를 설정합니다.
+`.env.example`을 복사해 `.env`를 생성하고 값을 채웁니다.
+
+```bash
+cp .env.example .env
+```
 
 | 환경변수 | 설명 | 기본값 |
 |---|---|---|
+| `DB_URL` | JDBC URL | `jdbc:mysql://localhost:3306/showmethemoney?...` |
 | `DB_USERNAME` | DB 유저명 | — (필수) |
 | `DB_PASSWORD` | DB 비밀번호 | — (필수) |
 | `JWT_SECRET` | JWT 서명 키 | — (필수, `openssl rand -hex 32`로 생성) |
-| `DB_URL` | JDBC URL | `jdbc:mysql://localhost:3306/showmethemoney?createDatabaseIfNotExist=true&...` |
 | `JWT_EXPIRATION` | 토큰 만료 시간 (초) | `3600` |
+| `CORS_ALLOWED_ORIGINS` | CORS 허용 Origin | `http://localhost:3000` |
 
-```bash
-export DB_USERNAME=root
-export DB_PASSWORD=your_password
-export JWT_SECRET=$(openssl rand -hex 32)
-```
+> `spring-dotenv` 라이브러리가 `.env` 파일을 자동으로 로드합니다.
 
 ### 2. 실행
 
