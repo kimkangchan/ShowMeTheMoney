@@ -52,16 +52,16 @@ ShowMeTheMoney/
 │     ├─ configmap.yaml
 │     ├─ secret.example.yaml
 │     ├─ frontend/
-│	│	├─ deployment.yaml
-│	│	└─ service.yaml
+│	   │	├─ deployment.yaml
+│	   │	└─ service.yaml
 │     ├─ backend/
-│	│	├─ deployment.yaml
-│	│	└─ service.yaml
+│	   │	├─ deployment.yaml
+│	   │	└─ service.yaml
 │     ├─ mysql/
-│	│	├─ pv.yaml
-│	│	├─ pvc.yaml
-│	│	├─ service.yaml
-│	│	└─statefulset.yaml
+│	   │	├─ pv.yaml
+│	   │	├─ pvc.yaml
+│	   │	├─ service.yaml
+│	   │	└─statefulset.yaml
 │     └─ commands/		#kubectl 일괄 처리 명령어
 ├─ docker-compose.yml
 └─ README.md
