@@ -114,7 +114,7 @@ export default function TransactionsPage() {
                 className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                   typeFilter === t
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                    : "bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700"
                 }`}
               >
                 {t === "ALL" ? "전체" : t === "INCOME" ? "수입" : "지출"}
@@ -143,7 +143,7 @@ export default function TransactionsPage() {
         <div className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="text-xs text-gray-400 border-b border-gray-700">
+              <tr className="text-xs text-gray-400 border-b border-gray-200 dark:border-gray-700">
                 <th className="px-4 py-3 text-left">날짜</th>
                 <th className="px-4 py-3 text-left">유형</th>
                 <th className="px-4 py-3 text-left">카테고리</th>
@@ -155,8 +155,8 @@ export default function TransactionsPage() {
             <tbody>
               {transactions.length > 0 ? (
                 transactions.map((tx) => (
-                  <tr key={tx.id} className="border-b border-gray-700/50 hover:bg-gray-700/30">
-                    <td className="px-4 py-3 text-gray-300">{formatDate(tx.transactionAt)}</td>
+                  <tr key={tx.id} className="border-b border-gray-100 dark:border-gray-700/50 hover:bg-gray-50 dark:hover:bg-gray-700/30">
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300">{formatDate(tx.transactionAt)}</td>
                     <td className="px-4 py-3">
                       <span
                         className={`text-xs px-2 py-0.5 rounded-full ${
@@ -168,8 +168,8 @@ export default function TransactionsPage() {
                         {tx.type === "INCOME" ? "수입" : "지출"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-gray-300">{tx.categoryName}</td>
-                    <td className="px-4 py-3 text-gray-400">{tx.memo ?? "-"}</td>
+                    <td className="px-4 py-3 text-gray-600 dark:text-gray-300">{tx.categoryName}</td>
+                    <td className="px-4 py-3 text-gray-400 dark:text-gray-400">{tx.memo ?? "-"}</td>
                     <td className={`px-4 py-3 text-right font-medium ${
                       tx.type === "INCOME" ? "text-green-400" : "text-red-400"
                     }`}>
@@ -205,7 +205,7 @@ export default function TransactionsPage() {
                   className={`w-8 h-8 rounded-lg text-xs ${
                     page === i
                       ? "bg-blue-600 text-white"
-                      : "bg-gray-700 text-gray-400 hover:bg-gray-600"
+                      : "bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-600"
                   }`}
                 >
                   {i + 1}

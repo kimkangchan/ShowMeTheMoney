@@ -69,7 +69,7 @@ export default function RecurringPage() {
               className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
                 typeFilter === t
                   ? "bg-blue-600 text-white"
-                  : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                  : "bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700"
               }`}
             >
               {t === "ALL" ? "전체" : t === "INCOME" ? "수입" : "지출"}
@@ -83,7 +83,7 @@ export default function RecurringPage() {
             filtered.map((item) => (
               <div
                 key={item.id}
-                className={`bg-gray-800 rounded-xl p-4 flex items-center justify-between ${
+                className={`bg-white dark:bg-gray-800 rounded-xl p-4 flex items-center justify-between ${
                   item.isActive === 0 ? "opacity-50" : ""
                 }`}
               >
@@ -94,8 +94,8 @@ export default function RecurringPage() {
                     }`}
                   />
                   <div>
-                    <p className="text-sm font-medium">{item.name}</p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">{item.name}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-400">
                       {item.categoryName} · 매월 {item.billingDay}일
                     </p>
                   </div>

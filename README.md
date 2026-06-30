@@ -15,9 +15,13 @@
 
 루트와 backend 각각 `.env` 파일이 필요합니다.
 
-**루트 `.env`** (docker-compose MySQL 비밀번호용)
+**루트 `.env`** (docker-compose MySQL 비밀번호 및 프론트엔드 API URL 설정)
 ```bash
 DB_PASSWORD=your_db_password
+
+# 로컬 실행 시에는 설정 불필요 (기본값 http://localhost:8080 사용)
+# VMware 등 외부 서버에서 실행할 경우 백엔드 서버 IP로 변경
+# NEXT_PUBLIC_API_URL=http://서버IP:8080
 ```
 
 **`backend/.env`** (backend 컨테이너 환경변수 전체)
