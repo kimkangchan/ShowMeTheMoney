@@ -17,7 +17,7 @@ spec:
         workload: backend-db
       containers:
         - name: backend
-          image: showmethemoney-backend:v1.0.0
+          image: showmethemoney-backend:v1.0.2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
